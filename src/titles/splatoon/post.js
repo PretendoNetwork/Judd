@@ -132,7 +132,7 @@ const multipart = multer().fields([
 
 router.post('/post', multipart, async (request, response) => {
 	const resultData = {
-		...request?.body,
+		...request.body,
 		FaceImg: request?.files?.FaceImg[0]?.buffer
 	};
 
