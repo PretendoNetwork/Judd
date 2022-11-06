@@ -146,7 +146,7 @@ router.post('/post', multipart, async (request, response) => {
 	const result = new SplatfestResult({
 		type: 'splatfest',
 		bossUniqueId: request.headers['x-boss-uniqueid'],
-		BossDigest: request.headers['x-boss-digest'],
+		bossDigest: request.headers['x-boss-digest'],
 		resultData: valid.value
 	});
 
