@@ -1,0 +1,12 @@
+{
+	"http": {
+		"port": 1234
+	},
+	"mongoose": {
+		"connection_string": "mongodb://127.0.0.1:27017/databasename",
+		"options": {
+			"useNewUrlParser": true,
+			"useUnifiedTopology": true
+		}
+	}
+}
