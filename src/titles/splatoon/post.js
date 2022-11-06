@@ -155,36 +155,4 @@ router.post('/post', multipart, async (request, response) => {
 	return response.send('success');
 });
 
-/*
-router.post('/post', async (request, response) => {
-	multipart(request, response, async (error) => {
-		if (error) {
-			return response.status(400).send(error.message);
-		}
-
-		const resultData = {
-			...request?.body,
-			FaceImg: request?.files?.FaceImg[0]?.buffer
-		};
-
-		const valid = resultDataSchema.validate(resultData);
-
-		if (valid.error) {
-			return response.status(400).send(valid.error.message);
-		}
-
-		const result = new SplatfestResult({
-			type: 'splatfest',
-			bossUniqueId: request.headers['x-boss-uniqueid'],
-			BossDigest: request.headers['x-boss-digest'],
-			resultData
-		});
-
-		await result.save();
-
-		return response.send('success');
-	});
-});
-*/
-
 module.exports = router;
