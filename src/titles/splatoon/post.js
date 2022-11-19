@@ -131,20 +131,17 @@ const multipart = multer().fields([
 	{ name: 'FaceImg' }
 ]);
 
-router.post('/post', async (request, response) => {
+router.post('/post', async (request, response, next) => {
 	const calculatedHash = crypto.createHash('sha1').update(request.rawBody).digest('hex');
 	const expectedHash = request.headers['x-boss-digest'];
 
 	if (calculatedHash !== expectedHash) {
-		// * 5XX means a server error, but this would be a 4XX client error
-		// * (wrong body or hash provided)
-		// * Real server sends this, however, so leave as is
-		return response.status(500).send('error');
+		return next('Provided BOSS digest does not match the calculated hash');
 	}
 
 	multipart(request.copy, response, async error => {
 		if (error) {
-			throw error;
+			return next(error);
 		}
 
 		const resultData = {
@@ -155,8 +152,7 @@ router.post('/post', async (request, response) => {
 		const valid = resultDataSchema.validate(resultData);
 
 		if (valid.error) {
-			console.log(valid.error);
-			return response.status(400).send(valid.error.message);
+			return next(valid.error);
 		}
 
 		const result = new SplatfestResult({

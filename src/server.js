@@ -30,9 +30,11 @@ app.use((request, response) => {
 
 // * Need to define all 4 of these to pick up errors
 app.use((error, request, response, next) => {
-	// TODO - Figure out better http codes
 	console.log(error);
-	response.status(400).send(error.message);
+	// * 5XX means a server error, but this would be a 4XX client error
+	// * (wrong body or hash provided)
+	// * Real server sends this, however, so leave as is
+	return response.status(500).send('error');
 });
 
 async function main() {
