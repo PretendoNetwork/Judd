@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const rawBodyMiddleware = require('./middleware/raw-body');
+const validateBOSSDigestMiddleware = require('./middleware/validate-boss-digest');
 const copyRequestStreamMiddleware = require('./middleware/copy-request-stream');
 const database = require('./database');
 const config = require('../config.json');
@@ -12,6 +13,7 @@ const { port } = config.http;
 
 app.use(morgan('dev'));
 app.use(rawBodyMiddleware);
+app.use(validateBOSSDigestMiddleware);
 app.use(copyRequestStreamMiddleware);
 app.use(splatoon);
 

@@ -1,4 +1,3 @@
-const crypto = require('crypto');
 const router = require('express').Router();
 const multer = require('multer');
 const joi = require('joi');
@@ -132,13 +131,6 @@ const multipart = multer().fields([
 ]);
 
 router.post('/post', async (request, response, next) => {
-	const calculatedHash = crypto.createHash('sha1').update(request.rawBody).digest('hex');
-	const expectedHash = request.headers['x-boss-digest'];
-
-	if (calculatedHash !== expectedHash) {
-		return next('Provided BOSS digest does not match the calculated hash');
-	}
-
 	multipart(request.copy, response, async error => {
 		if (error) {
 			return next(error);
