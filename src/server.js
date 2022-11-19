@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const rawBodyMiddleware = require('./middleware/raw-body');
+const copyRequestStreamMiddleware = require('./middleware/copy-request-stream');
 const database = require('./database');
 const config = require('../config.json');
 
@@ -9,6 +11,8 @@ const app = express();
 const { port } = config.http;
 
 app.use(morgan('dev'));
+app.use(rawBodyMiddleware);
+app.use(copyRequestStreamMiddleware);
 app.use(splatoon);
 
 // * 404 error handler

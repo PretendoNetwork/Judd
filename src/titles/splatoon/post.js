@@ -130,29 +130,35 @@ const multipart = multer().fields([
 	{ name: 'FaceImg' }
 ]);
 
-router.post('/post', multipart, async (request, response) => {
-	const resultData = {
-		...request.body,
-		FaceImg: request?.files?.FaceImg[0]?.buffer
-	};
+router.post('/post', async (request, response) => {
+	multipart(request.copy, response, async error => {
+		if (error) {
+			throw error;
+		}
 
-	const valid = resultDataSchema.validate(resultData);
+		const resultData = {
+			...request.copy.body,
+			FaceImg: request.copy?.files?.FaceImg[0]?.buffer
+		};
 
-	if (valid.error) {
-		console.log(valid.error);
-		return response.status(400).send(valid.error.message);
-	}
+		const valid = resultDataSchema.validate(resultData);
 
-	const result = new SplatfestResult({
-		type: 'splatfest',
-		bossUniqueId: request.headers['x-boss-uniqueid'],
-		bossDigest: request.headers['x-boss-digest'],
-		resultData: valid.value
+		if (valid.error) {
+			console.log(valid.error);
+			return response.status(400).send(valid.error.message);
+		}
+
+		const result = new SplatfestResult({
+			type: 'splatfest',
+			bossUniqueId: request.headers['x-boss-uniqueid'],
+			bossDigest: request.headers['x-boss-digest'],
+			resultData: valid.value
+		});
+
+		await result.save();
+
+		return response.send('success');
 	});
-
-	await result.save();
-
-	return response.send('success');
 });
 
 module.exports = router;
