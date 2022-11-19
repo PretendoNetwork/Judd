@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const router = require('express').Router();
 const multer = require('multer');
 const joi = require('joi');
@@ -131,6 +132,16 @@ const multipart = multer().fields([
 ]);
 
 router.post('/post', async (request, response) => {
+	const calculatedHash = crypto.createHash('sha1').update(request.rawBody).digest('hex');
+	const expectedHash = request.headers['x-boss-digest'];
+
+	if (calculatedHash !== expectedHash) {
+		// * 5XX means a server error, but this would be a 4XX client error
+		// * (wrong body or hash provided)
+		// * Real server sends this, however, so leave as is
+		return response.status(500).send('error');
+	}
+
 	multipart(request.copy, response, async error => {
 		if (error) {
 			throw error;
