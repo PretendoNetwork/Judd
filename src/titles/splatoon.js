@@ -1,4 +1,4 @@
-const multer = require('.multer');
+const multer = require('multer');
 const { joi } = require('../util');
 const { SplatfestResult } = require('../models/splatfest_result');
 
