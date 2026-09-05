@@ -63,8 +63,11 @@ module.exports = {
 		BottleneckPlayerNum: joi.numberstring(),
 		MaxSilenceFrame: joi.numberstring(),
 		MemoryHash: joi.numberstring(),
+		LastBitrate: joi.numberstring(),
 		Paint_Alpha: joi.numberstring(),
 		Paint_Bravo: joi.numberstring(),
+		RemainCount_Alpha: joi.numberstring(),
+		RemainCount_Bravo: joi.numberstring(),
 		FaceImg: joi.binary()
 	}).options({ presence: 'required' }).required(),
 	multipart_validator: multer().fields([
@@ -125,8 +128,11 @@ module.exports = {
 		{ name: 'BottleneckPlayerNum' },
 		{ name: 'MaxSilenceFrame' },
 		{ name: 'MemoryHash' },
+		{ name: 'LastBitrate' },
 		{ name: 'Paint_Alpha' },
 		{ name: 'Paint_Bravo' },
+		{ name: 'RemainCount_Alpha' },
+		{ name: 'RemainCount_Bravo' },
 		{ name: 'FaceImg' }
 	])
 };
