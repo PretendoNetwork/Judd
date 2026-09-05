@@ -61,8 +61,11 @@ SplatfestResultSchema.add({
 		BottleneckPlayerNum: Number,
 		MaxSilenceFrame: Number,
 		MemoryHash: Number,
+		LastBitrate: Number,
 		Paint_Alpha: Number,
 		Paint_Bravo: Number,
+		RemainCount_Alpha: Number,
+		RemainCount_Bravo: Number,
 		FaceImg: Buffer
 	}
 });
